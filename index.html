@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Instrumentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e6d4f4; /* Fondo elegante pastel */
+        }
+
+        /* Estilos de la barra de navegación */
+        nav {
+            background-color: #ffc0cb; /* Rosa pastel */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: medium; /* Tamaño de letra mediano */
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            outline: none; border:none;
+            text-transform: capitalize;
+            transition: .2s linear;
+        }
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+        .menu-toggle {
+            display: none;
+        }
+        .menu-toggle-label {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #ffc0cb; /* Rosa pastel */
+            }
+            nav ul li {
+                margin-right: 0;
+                text-align: center;
+                padding: 10px 0;
+            }
+            .menu-toggle:checked + nav ul {
+                display: flex;
+            }
+            .menu-toggle-label {
+                display: block;
+            }
+        }
+
+        /* Estilos de la sección de inicio */
+        .hero {
+            background-image: url('https://w7.pngwing.com/pngs/484/686/png-transparent-watercolor-painting-graffiti-background-pink-green-and-blue-abstract-painting-texture-ink-splash-thumbnail.png');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        /* Estilos de la sección sobre */
+        .about {
+            background-color: #ffffff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        /* Estilos de la sección de tarjetas de productos */
+        .products {
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto;
+            width: 80%;
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            transition: transform 0.5s ease;
+            animation: carousel 10s infinite linear; /* Velocidad del carrusel más lenta */
+        }
+        .product {
+            background-color: #ffccf9; /* Rosa pastel */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px; /* Espacio entre tarjetas */
+            width: calc(33.333% - 20px); /* Ancho de las tarjetas con margen */
+            max-width: 250px;
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+        }
+        .product h2 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+        .product p {
+            margin: 10px 0;
+        }
+        .product button {
+            background-color: #ffb6c1; /* Rosa pastel más oscuro */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .product button:hover {
+            background-color: #ff91a4; /* Rosa pastel más claro */
+        }
+        /* Estilos de la sección de contacto */
+        .contact {
+            background-color: #ffc0cb; /* Rosa pastel */
+            color: #000;
+            padding: 15px;
+            text-align: center;
+            width: 35%;
+            margin: 20px auto;
+            border: 2px solid #8a2be2; /* Borde de color morado */
+            border-radius: 10px;
+        }
+        .contact form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .contact input[type="text"],
+        .contact input[type="email"],
+        .contact textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+            color: #000;
+            background-color: #ffccf9; /* Rosa pastel */
+        }
+        .contact textarea {
+            height: 100px;
+        }
+        .contact input[type="submit"] {
+            background-color: #8a2be2; /* Morado */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .contact input[type="submit"]:hover {
+            background-color: #7b68ee; /* Morado más claro */
+        }
+        /* Estilos del pie de página */
+        footer {
+            background-color: #ffc0cb; /* Rosa pastel */
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
+        footer p {
+            margin: 0;
+        }
+        footer .social-icons a {
+            font-size: 24px; /* Tamaño más grande para los íconos */
+            margin: 0 10px; /* Espacio entre los íconos */
+            color: #ff91a4; /* Rosa pastel más claro */
+        }
+        /* Animación del carrusel */
+        @keyframes carousel {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-20%); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+     <!-- Barra de navegación -->
+     <nav>
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-toggle-label"><i class="fas fa-bars"></i></label>
+        <ul>
+            <li><a href="#inicio">Tienda Music 2024</a></li>
+            <li><a href="#products">Productos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="formulario.html#login-form">Iniciar Sesión</a></li>
+        </ul>
+        <div class="menu-info">
+            <i class="fas fa-phone-alt"></i><span>Tel: 8781168097</span>
+        </div>
+        <div class="icons">
+            <a href="#products" class="fas fa-heart"></a>
+            <a href="registro.html" class="fas fa-shopping-cart"></a>
+            <a href="formulario.html#login-form" class="fas fa-user"></a>
+        </div>
+    </nav>
+
+
+    <!-- Sección de inicio -->
+    <section id="inicio" class="hero">
+        <div>
+            <h1 style="color: #ff1493;">Bienvenido a nuestra tienda de instrumentos</h1> <!-- Cambio de color del texto -->
+            <p style="color: #ff1493;">Encuentra los mejores instrumentos musicales aquí.</p> <!-- Cambio de color del texto -->
+        </div>
+    </section>
+
+    <!-- Sección sobre -->
+    <section class="about">
+        <h2 style="color: #e414ff; text-shadow: 2px 2px 4px #9462b6;">Sobre nosotros</h2>
+        <p style="color: #9462b6; text-shadow: 1px 1px 2px #e6d4f4;">
+            Somos una tienda especializada en la venta de una amplia variedad de instrumentos musicales. Ofrecemos productos de alta calidad a precios competitivos. Desde guitarras, pianos y baterías, hasta instrumentos de viento y cuerdas, tenemos todo lo que necesitas para hacer música.
+        </p>
+        <p style="color: #9462b6; text-shadow: 1px 1px 2px #e6d4f4;">
+            Fundada en 2024, Tienda Music 2024 se ha comprometido a proporcionar a músicos de todos los niveles las mejores herramientas para su creatividad. Nuestro equipo de expertos está siempre disponible para asesorarte y ayudarte a encontrar el instrumento perfecto que se ajuste a tus necesidades y presupuesto.
+        </p>
+        <p style="color: #9462b6; text-shadow: 1px 1px 2px #e6d4f4;">
+            Además de nuestra amplia selección de instrumentos, también ofrecemos accesorios esenciales, como cuerdas, afinadores, y estuches, así como una variedad de servicios, incluyendo reparaciones y mantenimiento. Nos enorgullece ser parte de la comunidad musical y apoyar a músicos locales y emergentes.
+        </p>
+        <p style="color: #9462b6; text-shadow: 1px 1px 2px #e6d4f4;">
+            En Tienda Music 2024, creemos que la música es un lenguaje universal que une a las personas. Nos esforzamos por ofrecer una experiencia de compra inigualable, tanto en nuestra tienda física como en nuestra tienda online, con envíos rápidos y un servicio al cliente excepcional. Únete a nuestra familia de músicos y descubre por qué somos la tienda de música preferida por muchos.
+        </p>
+    </section>
+
+       <!-- Sección de tarjetas de productos -->
+       <section id="products" class="products">
+        <div class="product-container">
+            <!-- Tarjetas de productos -->
+            <!-- Tarjeta 1 -->
+            <div style="background-color: #ffcccc;" class="product">
+                <img src="https://w7.pngwing.com/pngs/22/355/png-transparent-korg-electronic-keyboard-electronic-musical-instruments-piano-keyboard-electronics-piano-performance-thumbnail.png" alt="Teclado">
+                <h2>Teclado</h2>
+                <p>Teclado electrónico con tonos realistas y múltiples funciones. Perfecto para compositores y músicos en vivo.</p>
+                <p>Precio: $299.99</p>
+                <button >Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 2 -->
+            <div style="background-color: #e2b4e2; " class="product">
+                <img src="https://w7.pngwing.com/pngs/225/161/png-transparent-violin-musical-instruments-graphy-violin-photography-classical-music-musician-thumbnail.png" alt="Violín">
+                <h2>Violín</h2>
+                <p>Violín de alta calidad hecho a mano con maderas seleccionadas. Produce un sonido cálido y expresivo.</p>
+                <p>Precio: $499.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 3 -->
+            <div style="background-color: #93c5db;" class="product">
+                <img src="https://w7.pngwing.com/pngs/685/475/png-transparent-tenor-saxophone-saxophone-brass-instrument-saxophone-alto-saxophone-thumbnail.png" alt="Saxofón">
+                <h2>Saxofón</h2>
+                <p>Saxofón alto profesional con una respuesta rápida y un tono brillante. Incluye estuche y accesorios.</p>
+                <p>Precio: $899.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 4 -->
+            <div style="background-color: #dbb093;" class="product">
+                <img src="https://w7.pngwing.com/pngs/865/342/png-transparent-guitar-musical-instrument-instruments-guitar-elements-red-brown-and-black-cutaway-acoustic-guitar-illustration-other-happy-birthday-vector-images-saxophone-thumbnail.png" alt="Guitarra">
+                <h2>Guitarra</h2>
+                <p>Guitarra acústica de alta calidad con cuerpo de caoba y diapasón de palisandro. Sonido rico y equilibrado.</p>
+                <p>Precio: $399.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 5 -->
+            <div style="background-color: #db9393;"class="product">
+                <img src="https://w7.pngwing.com/pngs/354/1024/png-transparent-bass-drums-percussion-drummer-percussion-drum-drum-beat-bass-drum-thumbnail.png" alt="Batería">
+                <h2>Batería</h2>
+                <p>Batería completa de 5 piezas con platillos y herrajes incluidos. Ideal para principiantes y profesionales.</p>
+                <p>Precio: $599.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 6 -->
+            <div style="background-color: #dbd693;" class="product">
+                <img src="https://w7.pngwing.com/pngs/422/594/png-transparent-piano-piano-furniture-piano-digital-piano-thumbnail.png" alt="Piano">
+                <h2>Piano</h2>
+                <p>Piano digital de alta gama con teclado contrapesado y muestras de sonido de concierto. Perfecto para estudio y escenario.</p>
+                <p>Precio: $1299.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 7 -->
+            <div style="background-color: #93dbb3;" class="product">
+                <img src="https://w7.pngwing.com/pngs/730/58/png-transparent-metal-flute-flute-musical-instruments-metal-thumbnail.png" alt="Flauta">
+                <h2>Flauta</h2>
+                <p>Flauta transversal plateada con llaves cerradas y estuche rígido incluido. Ideal para estudiantes avanzados y profesionales.</p>
+                <p>Precio: $199.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 8 -->
+            <div style="background-color: #93c4db;" class="product">
+                <img src="https://w7.pngwing.com/pngs/769/804/png-transparent-trumpet-musical-instruments-trombone-trombone-brass-instrument-saxophone-flugelhorn-thumbnail.png" alt="Trompeta">
+                <h2>Trompeta</h2>
+                <p>Trompeta dorada de alta calidad con pistones de acción rápida y estuche de transporte. Perfecta para jazz y música popular.</p>
+                <p>Precio: $349.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 9 -->
+            <div style="background-color: #9394db;" class="product">
+                <img src="https://w7.pngwing.com/pngs/891/185/png-transparent-cello-piano-string-violin-musical-instrument-violin-double-bass-bow-playing-violin-thumbnail.png" alt="Violonchelo">
+                <h2>Violonchelo</h2>
+                <p>Violonchelo de tamaño completo hecho a mano con maderas sólidas y varillas de fibra de carbono. Ideal para músicos avanzados.</p>
+                <p>Precio: $799.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 10 -->
+            <div style="background-color: #afa3db;" class="product">
+                <img src="https://w7.pngwing.com/pngs/335/973/png-transparent-cor-anglais-bass-clarinet-bass-oboe-clarinet-family-musical-instruments-brass-instrument-saxophone-reed-instrument-thumbnail.png" alt="Clarinete">
+                <h2>Clarinete</h2>
+                <p>Clarinete de ébano con llaves plateadas y estuche de lujo. Ideal para músicos de orquesta y bandas.</p>
+                <p>Precio: $449.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 11 -->
+            <div  style="background-color: #d5a3db;" class="product">
+                <img src="https://w7.pngwing.com/pngs/735/803/png-transparent-harp-harp-western-musical-instruments-musical-instruments-thumbnail.png" alt="Trompeta">
+                <h2>Arpa</h2>
+                <p>Arpa dorada de alta calidad con pistones de acción rápida y estuche de transporte. Perfecta para jazz y música popular.</p>
+                <p>Precio: $349.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+            <!-- Tarjeta 12-->
+            <div  style="background-color: #dba3c2;" class="product">
+                <img src="https://w7.pngwing.com/pngs/411/369/png-transparent-electric-guitar-guitar-guitar-accessory-string-instrument-acoustic-electric-guitar-thumbnail.png" alt="Violonchelo">
+                <h2>Guitarra Electrica</h2>
+                <p>Guiatarra Electrica de tamaño completo hecho a mano con maderas sólidas y varillas de fibra de carbono. Ideal para músicos avanzados.</p>
+                <p>Precio: $799.99</p>
+                <button>Agregar al carrito</button>
+            </div>
+        </div>
+       
+    <!-- Sección de contacto -->
+<section id="contacto" class="contact">
+    <h2>Contacto</h2>
+    <form action="https://formspree.io/f/mzbnolka" method="POST">
+        <input type="text" name="Nombre" placeholder="Nombre" required>
+        <input type="email" name="Correo electrónico" placeholder="Correo electrónico" required>
+        <textarea name="Mensaje" placeholder="Mensaje" required></textarea>
+        <input type="submit" value="Enviar mensaje">
+        <hr>
+        <h2>Ubicación</h2>
+        <a href="https://www.google.com/maps?q=Profesor+Pedro+Laurel+615,+Fraccionamiento+Lomas+de+la+villa,+26093" target="_blank">
+            <div style="display: flex; align-items: center;">
+            <div style="background-color: #ccc; padding: 8px; border-radius: 50%;">
+                <i class="fas fa-map-marker-alt" style="font-size: 24px;"></i>
+            </div>
+            <p style="font-weight: bold; font-style: italic; font-size: 12px; margin-left: 10px;">
+                Profesor Pedro Laurel #615 <br>
+                Fraccionamiento Lomas de la villa <br>
+                Código Postal: 26093
+            </p>
+        </div>
+    </form>
+</section>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p style="font-weight: bold; font-style: italic; font-size: 12px; margin-left: 10px;">Tienda de Instrumentos - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
